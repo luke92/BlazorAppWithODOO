@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ODOOIntegration.BlazorWeb.Shared;
-using ODOOIntegration.BlazorWeb.Shared.ODOO.Models;
+using ODOOIntegration.BlazorWeb.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

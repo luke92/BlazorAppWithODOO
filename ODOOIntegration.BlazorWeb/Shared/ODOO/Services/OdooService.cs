@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using ODOOIntegration.BlazorWeb.Shared.Models;
 
 namespace ODOOIntegration.BlazorWeb.Shared.ODOO.Services
 {
@@ -22,10 +23,28 @@ namespace ODOOIntegration.BlazorWeb.Shared.ODOO.Services
             try
             {
                 var clientOdoo = await GetClient();
-                
-                var invoices = await clientOdoo.GetAll<List<InvoiceModel>>("account.move",new OdooRpc.CoreCLR.Client.Models.Parameters.OdooFieldParameters());
-                
-                return invoices;
+                                
+                var movements = await clientOdoo.GetAll<List<AccountMoveOdoo>>("account.move",new OdooRpc.CoreCLR.Client.Models.Parameters.OdooFieldParameters());
+
+                var list = new List<InvoiceModel>();
+
+                foreach(var movement in movements)
+                {
+                    if (movement.move_type.Equals("out_invoice"))
+                    {
+                        list.Add(new InvoiceModel
+                        {
+                            Date = movement.date,
+                            Name = movement.display_name,
+                            Total = movement.amount_total,
+                            Balance = movement.amount_residual,
+                            TotalTax = movement.amount_tax,
+                            TotalUntaxed = movement.amount_untaxed
+                        });
+                    }                        
+                }
+
+                return list;
                 
             }
             catch(Exception ex)

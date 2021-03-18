@@ -1,5 +1,5 @@
 ﻿@page "/invoices"
-@using ODOOIntegration.BlazorWeb.Shared.ODOO.Models
+@using ODOOIntegration.BlazorWeb.Shared.Models
 @inject HttpClient Http
 
 <h1>Invoices</h1>
@@ -22,7 +22,7 @@ else
             @foreach (var invoice in invoices)
             {
                 <tr>
-                    <td>@invoice.display_name</td>
+                    <td>@invoice.Name</td>
                 </tr>
             }
         </tbody>
